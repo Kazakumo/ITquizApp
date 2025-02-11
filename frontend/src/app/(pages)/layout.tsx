@@ -1,6 +1,6 @@
 "use client";
 
-import { Header } from "../_components/Header";
+import { Header } from "@/components/Header";
 
 export default function PageLayout({
 	children,
