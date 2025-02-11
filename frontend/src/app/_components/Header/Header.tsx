@@ -1,4 +1,4 @@
-import { Button, Divider, Flex, Link, Spacer } from "@yamada-ui/react";
+import { Button, Separator, Flex, Link, Spacer } from "@yamada-ui/react";
 
 import { useRouter } from "next/navigation";
 
@@ -38,7 +38,7 @@ export const Header = () => {
 						SignOut
 					</Button>
 				</Flex>
-				<Divider variant="solid" />
+				<Separator variant="solid" />
 			</header>
 		</>
 	);
