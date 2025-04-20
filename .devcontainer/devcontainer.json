@@ -1,0 +1,15 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "app",
+
+	"dockerComposeFile": "../docker-compose.yml",
+	
+	"forwardPorts": [3000, 8000, 5432],
+
+	"service": "app",
+
+	"runServices": ["db"],
+
+	"workspaceFolder": "/workspace"
+}
