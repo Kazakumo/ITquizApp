@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - db
+    tty: true
+    environment:
+      - DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+    volumes:
+      - ${DEV_HOST_VOLUME}:${DEV_CONTAINER_VOLUME}:cached
+
+  db:
+    image: postgres:17.4
+    ports:
+      - ${POSTGRES_HOST_PORT}:5432
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    tty: true
