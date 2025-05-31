@@ -190,3 +190,5 @@ sketch
 # 手動追加分
 # Prisma
 /src/app/generated/prisma/client/
+# lefthookのローカル設定
+lefthook-local.yml
