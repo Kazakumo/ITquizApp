@@ -1,0 +1,44 @@
+# コミット前にlint, formatチェック
+# 引っかかったら直してadd
+# 差分がなくなったらコミット中止
+pre-commit:
+  commands:
+    biome-format:
+      run: |
+        npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+        git add {staged_files}
+        if git diff --cached --quiet; then
+          echo "No changes to commit after formatting."
+          exit 1
+        fi
+
+# コミットメッセージがConventional Commitに従うよう強制
+commit-msg:
+  commands:
+    "lint commit message":
+      run: npx commitlint --edit {1}
+
+# npm packageに脆弱性があるか調べる。あってもpushはできる
+# ブランチ名チェック。規則に沿わなければpush中止
+pre-push:
+  parallel: true
+  commands:
+    packages-audit:
+      run: npm audit
+    branch-validation:
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        
+        # 保護ブランチチェック
+        if [ "$branch" = "main" ] || [ "$branch" = "develop" ] || echo "$branch" | grep -q "^release"; then
+          echo "❌ Direct push to '$branch' is not allowed!"
+          exit 1
+        fi
+        
+        # 命名規則チェック
+        if ! echo "$branch" | grep -qE '^[A-Za-z]+/[A-Za-z]+-[0-9]+$'; then
+          echo "❌ Branch name '$branch' does not match required format"
+          exit 1
+        fi
+        
+        echo "✅ Branch '$branch' validation passed"
