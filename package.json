@@ -10,7 +10,7 @@
 		"seed": "ts-node prisma/seed.ts"
 	},
 	"prisma": {
-  		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+		"seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.7.4",
@@ -23,9 +23,14 @@
 		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@commitlint/cli": "^19.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
+		"@commitlint/types": "^19.8.1",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"lefthook": "^1.11.13",
 		"prisma": "^6.7.0",
 		"ts-node": "^10.9.2",
 		"tsx": "^4.19.4",
