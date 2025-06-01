@@ -7,7 +7,15 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"./src/app/generated/**",
+			"./.devcontainer/**",
+			"**/node_modules/**",
+			"./.next/**",
+			"./tsconfig.json",
+			"./prisma/**",
+			"**/*.module.css"
+		]
 	},
 	"formatter": {
 		"enabled": true,
