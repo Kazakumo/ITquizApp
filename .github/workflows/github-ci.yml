@@ -43,7 +43,7 @@ jobs:
       # Prismaクライアント生成
       - name: Generate Prisma Client
         run: |
-          mkdir -p src/app/generated/prisma/clien
+          mkdir -p src/app/generated/prisma/client
           npx prisma generate
       # biomeでのフォーマット、リントチェック
       - name: Setup Biome
