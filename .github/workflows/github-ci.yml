@@ -45,7 +45,7 @@ jobs:
         with:
           # 利用したいNode.jsバージョンを指定
           node-version: ${{ matrix.node-version }}
-        
+          cache: 'npm'
 
       # プロジェクトの依存関係をインストール
       - name: Install Dependencies
