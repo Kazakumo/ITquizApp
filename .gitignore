@@ -188,5 +188,7 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/react,nextjs,node
 
 # 手動追加分
+# Prisma
+/src/app/generated/prisma/client/
 # lefthookのローカル設定
 lefthook-local.yml
