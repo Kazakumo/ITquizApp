@@ -40,11 +40,14 @@ jobs:
       # プロジェクトの依存関係をインストール
       - name: Install Dependencies
         run: npm ci
+      # Prismaクライアント生成
+      - name: Generate Prisma Client
+        run: npx prisma generate
+      # biomeでのフォーマット、リントチェック
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
           version: latest
-      # biomeでのフォーマット、リントチェック
       - name: Run Biome
         run: biome ci .
       # ビルドチェック
