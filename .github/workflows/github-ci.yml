@@ -17,9 +17,9 @@ on:
 
 # デフォルトの作業ディレクトリ変更
 # ルート直下の場合は不要
-defaults:
-  run:
-    working-directory: frontend # NOTE: ルート直下だからいらない
+# defaults:
+#   run:
+#     working-directory: frontend # NOTE: ルート直下だからいらない
 
 # ジョブ定義
 jobs:
