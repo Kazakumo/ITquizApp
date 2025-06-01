@@ -4,6 +4,10 @@ name: frontend_ci
 # トリガーになる Github イベント
 on:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
     branches:
       - develop
 
