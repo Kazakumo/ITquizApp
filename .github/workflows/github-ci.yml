@@ -41,10 +41,7 @@ jobs:
         with:
           # 利用したいNode.jsバージョンを指定
           node-version: ${{ matrix.node-version }}
-          # npmのキャッシュを使用する設定
-          cache: "npm"
-          # ルート直下の場合は「./package-lock.json」に変更
-          cache-dependency-path: ./package-lock.json
+        
 
       # プロジェクトの依存関係をインストール
       - name: Install Dependencies
