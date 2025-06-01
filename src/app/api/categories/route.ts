@@ -1,4 +1,5 @@
 import { prisma } from "@/app/_lib/prisma";
+import { Prisma } from "@/app/generated/prisma/client/default";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -31,14 +32,15 @@ export async function POST(request: Request) {
 		});
 
 		return NextResponse.json(category, { status: 201 });
-	} catch (e: any) {
-		if (e.code === "P2002") {
-			// Prisma のユニーク制約違反
-			return NextResponse.json(
-				{ error: "そのカテゴリ名は既に存在します" },
-				{ status: 409 },
-			);
-		}
+	} catch (e: unknown) {
+		if (e instanceof Prisma.PrismaClientKnownRequestError)
+			if (e.code === "P2002") {
+				// Prisma のユニーク制約違反
+				return NextResponse.json(
+					{ error: "そのカテゴリ名は既に存在します" },
+					{ status: 409 },
+				);
+			}
 
 		console.error(e);
 		return NextResponse.json({ error: "サーバーエラー" }, { status: 500 });
