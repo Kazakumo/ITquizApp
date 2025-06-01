@@ -1,5 +1,5 @@
 # ワークフローの名前
-name: frontend_ci
+name: check_code_and_build_ci
 
 # トリガーになる Github イベント
 on:
@@ -10,16 +10,6 @@ on:
       - reopened
     branches:
       - develop
-
-# # 環境変数を設定
-# env:
-#   DOCKER_IMAGE_TAG: "frontend" # docker使う気がないからいらん
-
-# デフォルトの作業ディレクトリ変更
-# ルート直下の場合は不要
-# defaults:
-#   run:
-#     working-directory: frontend # NOTE: ルート直下だからいらない
 
 # ジョブ定義
 jobs:
@@ -54,5 +44,9 @@ jobs:
         uses: biomejs/setup-biome@v2
         with:
           version: latest
+      # biomeでのフォーマット、リントチェック
       - name: Run Biome
         run: biome ci .
+      # ビルドチェック
+      - name: App Build
+        run: npm run build
