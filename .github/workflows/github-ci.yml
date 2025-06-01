@@ -1,0 +1,64 @@
+# ワークフローの名前
+name: check_code_and_build_ci
+
+# トリガーになる Github イベント
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - develop
+
+# ジョブ定義
+jobs:
+  # ジョブ名
+  frontend_lint_check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 使用するNode.jsのバージョンを定義
+        node-version: [22.16.0]
+    # GitHub Actionsの権限設定
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # リポジトリからソースコードの取得
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Node.jsのセットアップ
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          # 利用したいNode.jsバージョンを指定
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      # プロジェクトの依存関係をインストール
+      - name: Install Dependencies
+        run: npm ci
+      # Prismaクライアント生成
+      - name: Generate Prisma Client
+        run: |
+          mkdir -p src/app/generated/prisma/client
+            npx prisma generate
+
+      - name: Verify Prisma Client generation
+        run: |
+          echo "Checking generated Prisma client:"
+          ls -la src/app/generated/prisma/client/
+          echo "Checking index file:"
+          ls -la src/app/generated/prisma/client/index.* || echo "No index file found"
+      # biomeでのフォーマット、リントチェック
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
+      # ビルドチェック
+      - name: App Build
+        run: npm run build
