@@ -1,0 +1,57 @@
+# ワークフローの名前
+name: frontend_ci
+
+# トリガーになる Github イベント
+on:
+  pull_request:
+    branches:
+      - develop
+
+# # 環境変数を設定
+# env:
+#   DOCKER_IMAGE_TAG: "frontend" # docker使う気がないからいらん
+
+# デフォルトの作業ディレクトリ変更
+# ルート直下の場合は不要
+defaults:
+  run:
+    working-directory: frontend # NOTE: ルート直下だからいらない
+
+# ジョブ定義
+jobs:
+  # ジョブ名
+  frontend_lint_check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 使用するNode.jsのバージョンを定義
+        node-version: [22.16.0]
+    # GitHub Actionsの権限設定
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # リポジトリからソースコードの取得
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Node.jsのセットアップ
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          # 利用したいNode.jsバージョンを指定
+          node-version: ${{ matrix.node-version }}
+          # npmのキャッシュを使用する設定
+          cache: "npm"
+          # ルート直下の場合は「./package-lock.json」に変更
+          cache-dependency-path: ./package-lock.json
+
+      # プロジェクトの依存関係をインストール
+      - name: Install Dependencies
+        run: npm ci
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
