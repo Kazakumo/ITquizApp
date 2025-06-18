@@ -33,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			}
 		},
 
-		authorized({ request, auth }) {
+		authorized({ auth }) {
 			return !!auth;
 		},
 	},
