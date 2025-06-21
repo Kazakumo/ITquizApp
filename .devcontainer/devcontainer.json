@@ -1,6 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
+
 	"name": "app",
 
 	"dockerComposeFile": "../docker-compose.yml",
@@ -11,5 +12,21 @@
 
 	"runServices": ["db"],
 
-	"workspaceFolder": "/workspace"
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"docker.docker",
+				"biomejs.biome",
+				"eamodio.gitlens",
+				"donjayamanne.githistory",
+				"ms-azuretools.vscode-containers",
+				"jgclark.vscode-todo-highlight",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"dotenv.dotenv-vscode"
+			]
+		}
+	},
+
+	// "remoteUser": "root" // ルート権限使いたいときは有効化してください
 }
