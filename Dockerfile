@@ -1,4 +1,4 @@
-FROM node:24-bullseye-slim AS base
+FROM node:24-bookworm-slim AS base
 
 
 FROM base AS deps
@@ -18,9 +18,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
     git \
     sudo \
     curl \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME \
-    && rm -rf /var/lib/apt/lists/*
+    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
 
 USER $USERNAME
 
